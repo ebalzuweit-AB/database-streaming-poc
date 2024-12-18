@@ -9,13 +9,26 @@ View:
 - Database using [Adminer](http://localhost:10000/?pgsql=database&username=admin)
 - Kafka using [kafka-ui](http://localhost:10001/)
 
+## Commands
+
+### Kafka Connect
+
+Get status:
+
+> curl -H "Accept:application/json" localhost:8083/
+
+List connectors:
+
+> curl -H "Accept:application/json" localhost:8083/connectors/
+
 ## Resources
 
 ### Debezium
 
 - [Debezium - Getting Started](https://debezium.io/documentation/reference/stable/tutorial.html)
 - [Debezium - Architecture](https://debezium.io/documentation/reference/stable/architecture.html)
-- [Debezium UI image](https://hub.docker.com/r/debezium/debezium-ui )
+- [Streaming data to a downstream database](https://debezium.io/blog/2017/09/25/streaming-to-another-database/)
+- [Debezium UI demo](https://github.com/debezium/debezium-examples/tree/main/ui-demo)
 
 ### Kafka Connect
 
