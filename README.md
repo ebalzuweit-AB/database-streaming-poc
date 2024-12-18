@@ -1,5 +1,9 @@
 # Database Streaming PoC
 
+This repo demonstrates using Debezium to stream changes from a source database to a sink, via Kafka messages.
+
+## Usage
+
 Run services:
 
 > docker compose up -d
@@ -10,8 +14,6 @@ View:
 - Kafka using [kafka-ui](http://localhost:10001/)
 - Debezium using [debezium-ui](http://localhost:10002/)
 
-## Commands
-
 ### Kafka Connect
 
 Get status:
@@ -21,6 +23,28 @@ Get status:
 List connectors:
 
 > curl -H "Accept:application/json" localhost:8083/connectors/
+
+Delete a connector:
+
+> curl -H "Accept:application/json" -X DELETE localhost:8083/connectors/{CONNECTOR_NAME}
+
+### Debezium
+
+Setup your Debezium connector like so:
+
+``` json
+{
+  "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+  "topic.prefix": "source-db",
+  "database.user": "admin",
+  "database.dbname": "db",
+  "database.hostname": "database",
+  "database.password": "*****",
+  "name": "source-pg-connector",
+  "schema.include.list": "source_data",
+  "plugin.name": "pgoutput"
+}
+```
 
 ## Resources
 

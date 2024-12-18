@@ -13,7 +13,7 @@ services:
       - database-data:/var/lib/postgresql/data/
 
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: bitnami/kafka
     restart: always
     ports:
       - 9095:9094
@@ -28,6 +28,8 @@ services:
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      # Auto-create topics for Kafka connect / Debezium
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
     volumes:
       - kafka-data:/bitnami/kafka
 
