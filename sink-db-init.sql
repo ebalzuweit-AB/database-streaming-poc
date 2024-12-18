@@ -1,2 +1,5 @@
 -- Setup database
-CREATE SCHEMA sink_data;
+CREATE SCHEMA streaming_poc;
+CREATE TABLE streaming_poc.test(
+	id int primary key
+);
