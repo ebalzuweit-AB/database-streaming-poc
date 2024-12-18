@@ -21,56 +21,49 @@ View services:
 	- [Source database](http://localhost:10000/?pgsql=source-database&username=admin&db=db)
 	- [Sink database](http://localhost:10000/?pgsql=sink-database&username=admin&db=db)
 - Kafka using [kafka-ui](http://localhost:10001/)
-- Debezium using [debezium-ui](http://localhost:10002/)
+- Debezium using [debezium-ui][debezium-ui]
 
 ### Kafka Connect
 
-Get status:
+Kafka Connect uses a REST API for interactions, see example requests in [kafka-connect-requests.http](./kafka-connect-requests.http).
 
-> curl -H "Accept:application/json" localhost:8083/
+> [!TIP]
+> In VS Code, you can use the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension to execute the requests.
 
-List connectors:
+#### Debezium
 
-> curl -H "Accept:application/json" localhost:8083/connectors/
+Execute the following HTTP requests to create the source & sink Kafka connectors:
+- Create Debezium source connector
+- Create Debezium sink connector
 
-Get connector status:
-
-> curl -H "Accept:application/json" localhost:8083/connectors/{CONNECTOR_NAME}
-
-Delete a connector:
-
-> curl -H "Accept:application/json" -X DELETE localhost:8083/connectors/{CONNECTOR_NAME}
-
-### Debezium
-
-Setup your Debezium connector like so:
-
+If successful, you should see the following response for "List Kafka Connect connectors":
 ``` json
-{
-  "topic.prefix": "source-database",
-  "database.hostname": "database",
-  "database.user": "admin",
-  "database.password": "*****",
-  "database.dbname": "db",
-  "plugin.name": "pgoutput"
-}
+[
+  "sink-connector",
+  "source-connector"
+]
 ```
 
+After creation, you should see both connectors in [debezium-ui][debezium-ui].
+
+Enable DEBUG logs for the sink:
+
+> curl -X PUT -H "Content-Type: application/json" http://localhost:8083/admin/loggers/io.debezium.connector.jdbc.JdbcSinkConnector -d '{"level": "DEBUG"}'
+
+(TODO: This fails when run from the .http file)
+
 ## Resources
+
+### Kafka Connect
+
+- [Kafka Connect documentation](https://kafka.apache.org/documentation.html#connect)
 
 ### Debezium
 
 - [Debezium - Getting Started](https://debezium.io/documentation/reference/stable/tutorial.html)
-- [Debezium - Architecture](https://debezium.io/documentation/reference/stable/architecture.html)
 - [Debezium - JDBC Sink Connector](https://debezium.io/documentation/reference/stable/connectors/jdbc.html)
-- [Streaming data to a downstream database](https://debezium.io/blog/2017/09/25/streaming-to-another-database/)
+- [Debezium - Event flattening](https://debezium.io/documentation/reference/stable/transformations/event-flattening.html)
 - [Debezium UI demo](https://github.com/debezium/debezium-examples/tree/main/ui-demo)
 
-### Kafka Connect
-
-- [Running Kafka Connect](https://kafka.apache.org/documentation/#connect_running)
-- [Kafka Connect image](https://hub.docker.com/r/debezium/connect)
-
-### Apache Flink
-
-- [Apache Flink - Hands-On Training](https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/learn-flink/overview/)
+<!-- Links -->
+[debezium-ui]:http://localhost:10002/
