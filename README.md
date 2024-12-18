@@ -34,14 +34,11 @@ Setup your Debezium connector like so:
 
 ``` json
 {
-  "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-  "topic.prefix": "source-db",
-  "database.user": "admin",
-  "database.dbname": "db",
+  "topic.prefix": "source-database",
   "database.hostname": "database",
+  "database.user": "admin",
   "database.password": "*****",
-  "name": "source-pg-connector",
-  "schema.include.list": "source_data",
+  "database.dbname": "db",
   "plugin.name": "pgoutput"
 }
 ```
