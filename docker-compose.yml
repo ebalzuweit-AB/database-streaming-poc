@@ -31,6 +31,19 @@ services:
     volumes:
       - kafka-data:/bitnami/kafka
 
+  kafka-connect:
+    image: quay.io/debezium/connect
+    restart: always
+    ports:
+      - 8083:8083
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+      - CONFIG_STORAGE_TOPIC=kafka_connect_configs
+      - OFFSET_STORAGE_TOPIC=kafka_connect_offsets
+      - STATUS_STORAGE_TOPIC=kafka_connect_statuses
+
+  # Utility services
+
   adminer:
     image: adminer
     restart: always
@@ -54,6 +67,14 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
     depends_on:
       - kafka
+
+  debezium-ui:
+    image: debezium/debezium-ui
+    restart: always
+    ports:
+      - 10002:8080
+    environment:
+      - KAFKA_CONNECT_URIS=http://kafka-connect:8083
 
 volumes:
   database-data:

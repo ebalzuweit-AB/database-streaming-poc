@@ -8,6 +8,7 @@ View:
 
 - Database using [Adminer](http://localhost:10000/?pgsql=database&username=admin)
 - Kafka using [kafka-ui](http://localhost:10001/)
+- Debezium using [debezium-ui](http://localhost:10002/)
 
 ## Commands
 
