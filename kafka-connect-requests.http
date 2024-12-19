@@ -20,7 +20,6 @@ Accept: application/json
 		"database.dbname": "db",
 		"database.hostname": "source-database",
 		"database.password": "admin",
-		"name": "source-connector",
 		"schema.include.list": "streaming_poc",
 		"plugin.name": "pgoutput",
 
@@ -32,13 +31,16 @@ Accept: application/json
 	}
 }
 
+# TODO: tombstones.on.delete
+# TODO: value.converter
+
 ### Create Debezium sink connector
 POST http://localhost:8083/connectors 
 Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "sink-connector",
+    "name": "sink-connector.streaming_poc.test",
     "config": {
         "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
         "tasks.max": "1",
@@ -52,7 +54,8 @@ Accept: application/json
 		"primary.key.mode": "record_value",
 		"schema.evolution": "basic",
 		"use.time.zone": "UTC",
-		"topics.regex": "^source-connector\\.(.*)"
+		"topics": "source-connector.streaming_poc.test",
+		"table.name.format": "streaming_poc.test"
     }
 }
 
