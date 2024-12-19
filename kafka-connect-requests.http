@@ -34,13 +34,13 @@ Accept: application/json
 # TODO: tombstones.on.delete
 # TODO: value.converter
 
-### Create Debezium sink connector
+### Create Debezium sink connector - users
 POST http://localhost:8083/connectors 
 Content-Type: application/json
 Accept: application/json
 
 {
-    "name": "sink-connector.streaming_poc.test",
+    "name": "sink-connector.streaming_poc.users",
     "config": {
         "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
         "tasks.max": "1",
@@ -54,8 +54,58 @@ Accept: application/json
 		"primary.key.mode": "record_value",
 		"schema.evolution": "basic",
 		"use.time.zone": "UTC",
-		"topics": "source-connector.streaming_poc.test",
-		"table.name.format": "streaming_poc.test"
+		"topics": "source-connector.streaming_poc.users",
+		"table.name.format": "streaming_poc.users"
+    }
+}
+
+### Create Debezium sink connector - orders
+POST http://localhost:8083/connectors 
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "sink-connector.streaming_poc.orders",
+    "config": {
+        "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+		"connection.url": "jdbc:postgresql://sink-database/db",
+		"connection.username": "admin",
+		"connection.password": "admin",
+		"auto.create": "true",
+		"insert.mode": "upsert",
+		"delete.enabled": "false",
+		"primary.key.fields": "id",
+		"primary.key.mode": "record_value",
+		"schema.evolution": "basic",
+		"use.time.zone": "UTC",
+		"topics": "source-connector.streaming_poc.orders",
+		"table.name.format": "streaming_poc.orders"
+    }
+}
+
+### Create Debezium sink connector - order_items
+POST http://localhost:8083/connectors 
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "sink-connector.streaming_poc.order_items",
+    "config": {
+        "connector.class": "io.debezium.connector.jdbc.JdbcSinkConnector",
+        "tasks.max": "1",
+		"connection.url": "jdbc:postgresql://sink-database/db",
+		"connection.username": "admin",
+		"connection.password": "admin",
+		"auto.create": "true",
+		"insert.mode": "upsert",
+		"delete.enabled": "false",
+		"primary.key.fields": "id",
+		"primary.key.mode": "record_value",
+		"schema.evolution": "basic",
+		"use.time.zone": "UTC",
+		"topics": "source-connector.streaming_poc.order_items",
+		"table.name.format": "streaming_poc.order_items"
     }
 }
 
