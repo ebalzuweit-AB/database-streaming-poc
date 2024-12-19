@@ -18,8 +18,8 @@ Stop services:
 View services:
 
 - Databases using Adminer
-	- [Source database](http://localhost:10000/?pgsql=source-database&username=admin&db=db)
-	- [Sink database](http://localhost:10000/?pgsql=sink-database&username=admin&db=db)
+	- [Source database](http://localhost:10000/?pgsql=source-database&username=admin&db=db&ns=streaming_poc)
+	- [Sink database](http://localhost:10000/?pgsql=sink-database&username=admin&db=db&ns=streaming_poc)
 - Kafka using [kafka-ui](http://localhost:10001/)
 - Debezium using [debezium-ui][debezium-ui]
 
@@ -28,6 +28,8 @@ View services:
 - Multiple tables
 - Script to test Create / Update / Delete
 - Investigate event transformations further
+	- value.converter
+- Test restarts, downtime, snapshots
 
 ### Kafka Connect
 
