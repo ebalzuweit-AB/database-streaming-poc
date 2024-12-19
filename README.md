@@ -42,15 +42,11 @@ Execute the following HTTP requests to create the source & sink Kafka connectors
 - Create Debezium source connector
 - Create Debezium sink connector
 
-If successful, you should see the following response for "List Kafka Connect connectors":
-``` json
-[
-  "sink-connector",
-  "source-connector"
-]
-```
+If successful, you should see the connectors listed in the following places:
+- The response for "List Kafka Connect connectors" request
+- In [debezium-ui][debezium-ui].
 
-After creation, you should see both connectors in [debezium-ui][debezium-ui].
+##### Debugging connector issues
 
 Enable DEBUG logs for the sink:
 
