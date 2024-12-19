@@ -17,7 +17,7 @@ Stop services:
 
 View services:
 
-- Database using Adminer
+- Databases using Adminer
 	- [Source database](http://localhost:10000/?pgsql=source-database&username=admin&db=db)
 	- [Sink database](http://localhost:10000/?pgsql=sink-database&username=admin&db=db)
 - Kafka using [kafka-ui](http://localhost:10001/)
