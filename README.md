@@ -23,6 +23,12 @@ View services:
 - Kafka using [kafka-ui](http://localhost:10001/)
 - Debezium using [debezium-ui][debezium-ui]
 
+### TODO
+
+- Multiple tables
+- Script to test Create / Update / Delete
+- Investigate event transformations further
+
 ### Kafka Connect
 
 Kafka Connect uses a REST API for interactions, see example requests in [kafka-connect-requests.http](./kafka-connect-requests.http).
@@ -62,8 +68,8 @@ Enable DEBUG logs for the sink:
 
 - [Debezium - Getting Started](https://debezium.io/documentation/reference/stable/tutorial.html)
 - [Debezium - JDBC Sink Connector](https://debezium.io/documentation/reference/stable/connectors/jdbc.html)
+- [Red Hat - Debezium JDBC Sink Connector](https://docs.redhat.com/en/documentation/red_hat_integration/2023.q4/html/debezium_user_guide/debezium-connector-for-jdbc)
 - [Debezium - Event flattening](https://debezium.io/documentation/reference/stable/transformations/event-flattening.html)
-- [Debezium UI demo](https://github.com/debezium/debezium-examples/tree/main/ui-demo)
 
 <!-- Links -->
 [debezium-ui]:http://localhost:10002/
