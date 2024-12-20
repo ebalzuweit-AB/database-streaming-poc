@@ -10,10 +10,7 @@ Run services:
 
 Stop services:
 
-> docker compose down
-
-> [!NOTE]
-> To reset the databases and Kafka you'll need to remove the respective volumes, as they are persisted to your filesystem.
+> docker compose down -v
 
 View services:
 
@@ -65,6 +62,8 @@ Enable DEBUG logs for the sink:
 ### Debezium
 
 - [Debezium - Getting Started](https://debezium.io/documentation/reference/stable/tutorial.html)
+- [Debezium - Source Connector - PostgreSQL](https://debezium.io/documentation/reference/stable/connectors/postgresql.html)
+	- [PostgreSQL Connector Properties](https://debezium.io/documentation/reference/stable/connectors/postgresql.html#postgresql-connector-properties)
 - [Debezium - JDBC Sink Connector](https://debezium.io/documentation/reference/stable/connectors/jdbc.html)
 - [Red Hat - Debezium JDBC Sink Connector](https://docs.redhat.com/en/documentation/red_hat_integration/2023.q4/html/debezium_user_guide/debezium-connector-for-jdbc)
 - [Debezium - Event flattening](https://debezium.io/documentation/reference/stable/transformations/event-flattening.html)
