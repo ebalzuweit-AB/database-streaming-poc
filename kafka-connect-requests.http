@@ -1,3 +1,5 @@
+## Kafka Connect status
+
 ### Get Kafka Connect status
 GET http://localhost:8083/
 Accept: application/json
@@ -6,33 +8,56 @@ Accept: application/json
 GET http://localhost:8083/connectors/
 Accept: application/json
 
+### Get source connector status
+GET http://localhost:8083/connectors/source-connector/status
+Accept: application/json
+
+### Get sink connector status - users
+GET http://localhost:8083/connectors/sink-connector.streaming_poc.users/status
+Accept: application/json
+
+### Get sink connector status - orders
+GET http://localhost:8083/connectors/sink-connector.streaming_poc.orders/status
+Accept: application/json
+
+### Get sink connector status - order_items
+GET http://localhost:8083/connectors/sink-connector.streaming_poc.order_items/status
+Accept: application/json
+
+## Create connectors
+
 ### Create Debezium source connector
 POST http://localhost:8083/connectors
 Content-Type: application/json
 Accept: application/json
 
 {
-	"name": "source-connector",
+	"name": "source-db-cdc-connector",
 	"config": {
 		"connector.class": "io.debezium.connector.postgresql.PostgresConnector",
-		"topic.prefix": "source-connector",
-		"database.user": "admin",
-		"database.dbname": "db",
+		"topic.prefix": "source-db",
 		"database.hostname": "source-database",
+		"database.port": "5432",
+		"database.dbname": "db",
+		"database.user": "admin",
 		"database.password": "admin",
 		"schema.include.list": "streaming_poc",
 		"plugin.name": "pgoutput",
+		"snapshot.mode": "initial",
+		
+		"key.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"key.converter.schemas.enable": "true",
+		"value.converter.schemas.enable": "true",  
 
 		"transforms": "unwrap",
 		"transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
 		"transforms.unwrap.fields": "op,table,lsn,source.ts_ms",
 		"transforms.unwrap.add.headers": "db",
-		"transforms.unwrap.delete.handling.mode": "rewrite"
+		"transforms.unwrap.delete.handling.mode": "none",
+		"transforms.unwrap.drop.tombstones": "false"
 	}
 }
-
-# TODO: tombstones.on.delete
-# TODO: value.converter
 
 ### Create Debezium sink connector - users
 POST http://localhost:8083/connectors 
@@ -47,15 +72,21 @@ Accept: application/json
 		"connection.url": "jdbc:postgresql://sink-database/db",
 		"connection.username": "admin",
 		"connection.password": "admin",
-		"auto.create": "true",
-		"insert.mode": "upsert",
-		"delete.enabled": "false",
+
+		"key.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"key.converter.schemas.enable": "true",
+		"value.converter.schemas.enable": "true",  
+
+		"topics": "source-db.streaming_poc.users",
+		"table.name.format": "streaming_poc.users",
 		"primary.key.fields": "id",
 		"primary.key.mode": "record_value",
+		"auto.create": "true",
 		"schema.evolution": "basic",
-		"use.time.zone": "UTC",
-		"topics": "source-connector.streaming_poc.users",
-		"table.name.format": "streaming_poc.users"
+		"insert.mode": "upsert",
+		"delete.enabled": "false",
+		"use.time.zone": "UTC"
     }
 }
 
@@ -72,15 +103,21 @@ Accept: application/json
 		"connection.url": "jdbc:postgresql://sink-database/db",
 		"connection.username": "admin",
 		"connection.password": "admin",
-		"auto.create": "true",
-		"insert.mode": "upsert",
-		"delete.enabled": "false",
+
+		"key.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"key.converter.schemas.enable": "true",
+		"value.converter.schemas.enable": "true",  
+
+		"topics": "source-db.streaming_poc.orders",
+		"table.name.format": "streaming_poc.orders",
 		"primary.key.fields": "id",
 		"primary.key.mode": "record_value",
+		"auto.create": "true",
 		"schema.evolution": "basic",
-		"use.time.zone": "UTC",
-		"topics": "source-connector.streaming_poc.orders",
-		"table.name.format": "streaming_poc.orders"
+		"insert.mode": "upsert",
+		"delete.enabled": "false",
+		"use.time.zone": "UTC"
     }
 }
 
@@ -97,35 +134,38 @@ Accept: application/json
 		"connection.url": "jdbc:postgresql://sink-database/db",
 		"connection.username": "admin",
 		"connection.password": "admin",
-		"auto.create": "true",
-		"insert.mode": "upsert",
-		"delete.enabled": "false",
+
+		"key.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"value.converter": "org.apache.kafka.connect.json.JsonConverter",
+		"key.converter.schemas.enable": "true",
+		"value.converter.schemas.enable": "true",  
+
+		"topics": "source-db.streaming_poc.order_items",
+		"table.name.format": "streaming_poc.order_items",
 		"primary.key.fields": "id",
 		"primary.key.mode": "record_value",
+		"auto.create": "true",
 		"schema.evolution": "basic",
-		"use.time.zone": "UTC",
-		"topics": "source-connector.streaming_poc.order_items",
-		"table.name.format": "streaming_poc.order_items"
+		"insert.mode": "upsert",
+		"delete.enabled": "false",
+		"use.time.zone": "UTC"
     }
 }
 
-### Get source connector status
-GET http://localhost:8083/connectors/source-connector/status
-Accept: application/json
-
-### Get sink connector status
-GET http://localhost:8083/connectors/sink-connector/status
-Accept: application/json
-
-### Set log level for sink connector
-PUT http://localhost:8083/admin/loggers/io.debezium.connector.jdbc.JdbcSinkConnector -d '{"level": "DEBUG"}'
-Content-Type:application/json
-Accept: application/json
+## Delete connectors
 
 ### Delete Debezium source connector
 DELETE http://localhost:8083/connectors/source-connector
 Accept: application/json
 
-### Delete Debezium sink connector
-DELETE http://localhost:8083/connectors/sink-connector
+### Delete Debezium sink connector - users
+DELETE http://localhost:8083/connectors/sink-connector.streaming_poc.users
+Accept: application/json
+
+### Delete Debezium sink connector - orders
+DELETE http://localhost:8083/connectors/sink-connector.streaming_poc.orders
+Accept: application/json
+
+### Delete Debezium sink connector - order_items
+DELETE http://localhost:8083/connectors/sink-connector.streaming_poc.order_items
 Accept: application/json
