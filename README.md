@@ -1,6 +1,37 @@
 # Database Streaming PoC
 
-This repo demonstrates using Debezium to stream changes from a source database to a sink, via Kafka messages.
+This repo demonstrates using Kafka Connect and Debezium to stream changes from a source database to a sink.
+
+## Features
+
+### Create new records
+
+New records will be created in the sink database.
+
+### Update existing records
+
+Updated records will be synched to the sink database.
+
+### Delete existing records
+
+Deleted records will be deleted in the sink database.
+
+### Table evolution
+
+Table changes in the source database will be reflected in the sink database.
+
+### Schema evolution
+
+New tables in the source database will be tracked by the source connector.
+	A new sink connector will be required to sync the new table.
+
+### Snapshotting
+
+The source connector will take a snapshot of the source database on creation.
+
+### Connector downtime
+
+Source and sink connectors will gracefully recover from downtime.
 
 ## Usage
 
@@ -19,12 +50,6 @@ View services:
 	- [Sink database](http://localhost:10000/?pgsql=sink-database&username=admin&db=db&ns=streaming_poc)
 - Kafka using [kafka-ui](http://localhost:10001/)
 - Debezium using [debezium-ui][debezium-ui]
-
-### TODO
-
-- Investigate event transformations further
-	- value.converter
-- Test restarts, downtime, snapshots
 
 ### Kafka Connect
 
