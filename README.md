@@ -22,8 +22,6 @@ View services:
 
 ### TODO
 
-- Multiple tables
-- Script to test Create / Update / Delete
 - Investigate event transformations further
 	- value.converter
 - Test restarts, downtime, snapshots
@@ -37,9 +35,9 @@ Kafka Connect uses a REST API for interactions, see example requests in [kafka-c
 
 #### Debezium
 
-Execute the following HTTP requests to create the source & sink Kafka connectors:
+Execute HTTP requests to create the source & sink Kafka connectors:
 - Create Debezium source connector
-- Create Debezium sink connector
+- Create Debezium sink connector - {TABLE_NAME}
 
 If successful, you should see the connectors listed in the following places:
 - The response for "List Kafka Connect connectors" request
@@ -58,6 +56,7 @@ Enable DEBUG logs for the sink:
 ### Kafka Connect
 
 - [Kafka Connect documentation](https://kafka.apache.org/documentation.html#connect)
+- [Kafka Connect transforms](https://kafka.apache.org/documentation/#connect_transforms)
 
 ### Debezium
 
